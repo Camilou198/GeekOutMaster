@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class GUIGridBagLayout extends JFrame {
-    public static final String MENSAJE_AYUDA ="Bienvenido a GreekOutMaster"
+    public static final String MENSAJE_AYUDA = "Bienvenido a GreekOutMaster"
             + "\nTienes máximo 5 rondas para sumar 30 puntos y ganar "
             + "\nEl Meeple permite relanzar otro dado en juego, es decir, de la sección dados activos"
             + "\nLa Nave Espacial envía un dado no usado (de la sección dados activos) a la sección de dados inactivos."
@@ -16,18 +16,18 @@ public class GUIGridBagLayout extends JFrame {
             + "\n42 es la cara que permite sumar puntos al final de la ronda";
 
     private Header headerProject;
-    private JLabel dado1, dado2,dado3,dado4,dado5,dado6,dado7,dado8,dado9,dado10;
-    private JPanel panelDadosActivos,panelDadosInactivos,panelDadosUtilizados;
-    private ImageIcon imageDado,imageDados3,resultadoDado;
-    private JButton lanzar,ayuda;
+    private JLabel dadosActivos, dadosInactivos;
+    private JPanel panelDadosActivos, panelDadosInactivos, panelDadosUtilizados;
+    private ImageIcon imageDado, imageDados7;
+    private JButton lanzar, ayuda, dado1, dado2, dado3, dado4, dado5, dado6, dado7, dado8, dado9, dado10;
     private JTextArea resultadosDados;
     private Escucha escucha;
     private Model Model;
 
-    public GUIGridBagLayout(){
+    public GUIGridBagLayout() {
         initGUI();
         this.setTitle("Game Greek Out Master");
-        this.setSize(200,100);
+        this.setSize(200, 100);
         this.pack();
         this.setResizable(false);
         this.setVisible(true);
@@ -55,20 +55,28 @@ public class GUIGridBagLayout extends JFrame {
         constraints.gridy = 0;
         constraints.gridwidth = 0;
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.add(headerProject,constraints);
+        this.add(headerProject, constraints);
 
-        imageDado = new ImageIcon(getClass().getResource("/resources/Dices7.png"));
-        imageDados3 = new ImageIcon(getClass().getResource("/resources/Dices3.png"));
-        dado1 = new JLabel(imageDado);
-        dado2 = new JLabel();
-        dado3 = new JLabel();
-        dado4 = new JLabel();
-        dado5 = new JLabel();
-        dado6 = new JLabel();
-        dado7 = new JLabel();
-        dado8 = new JLabel(imageDados3);
-        dado9 = new JLabel();
-        dado10 = new JLabel();
+        imageDados7 = new ImageIcon(getClass().getResource("/resources/Dices7.png"));
+        imageDado = new ImageIcon(getClass().getResource("/resources/Dices3.png"));
+        dadosActivos = new JLabel(imageDados7);
+        dado1 = new JButton();
+        dado1.addActionListener(escucha);
+        dado2 = new JButton();
+        dado2.addActionListener(escucha);
+        dado3 = new JButton();
+        dado3.addActionListener(escucha);
+        dado4 = new JButton();
+        dado4.addActionListener(escucha);
+        dado5 = new JButton();
+        dado5.addActionListener(escucha);
+        dado6 = new JButton();
+        dado6.addActionListener(escucha);
+        dado7 = new JButton();
+        dado7.addActionListener(escucha);
+        dado8 = new JButton(imageDado);
+        dado9 = new JButton();
+        dado10 = new JButton();
 
         lanzar = new JButton("lanzar");
         lanzar.addActionListener(escucha);
@@ -77,7 +85,7 @@ public class GUIGridBagLayout extends JFrame {
         constraints.gridwidth = 2;
         constraints.fill = GridBagConstraints.NONE;
         constraints.anchor = GridBagConstraints.CENTER;
-        this.add(lanzar,constraints);
+        this.add(lanzar, constraints);
 
         ayuda = new JButton("Ayuda");
         ayuda.addActionListener(escucha);
@@ -86,33 +94,27 @@ public class GUIGridBagLayout extends JFrame {
         constraints.gridwidth = 1;
         constraints.fill = GridBagConstraints.NONE;
         constraints.anchor = GridBagConstraints.LINE_START;
-        this.add(ayuda,constraints);
+        this.add(ayuda, constraints);
 
         panelDadosActivos = new JPanel();
-        panelDadosActivos.setPreferredSize(new Dimension(600,310));
+        panelDadosActivos.setPreferredSize(new Dimension(600, 310));
         panelDadosActivos.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 5),
                 "Dados Activos", TitledBorder.CENTER, TitledBorder.TOP, new Font("Arial", Font.BOLD, 25), Color.BLACK));
-        panelDadosActivos.setBackground(new Color(255,255,255,0));
-        panelDadosActivos.add(dado1);
-        panelDadosActivos.add(dado2);
-        panelDadosActivos.add(dado3);
-        panelDadosActivos.add(dado4);
-        panelDadosActivos.add(dado5);
-        panelDadosActivos.add(dado6);
-        panelDadosActivos.add(dado7);
+        panelDadosActivos.setBackground(new Color(255, 255, 255, 0));
+        panelDadosActivos.add(dadosActivos);
         panelDadosActivos.add(lanzar);
         constraints.gridx = 0;
         constraints.gridy = 2;
         constraints.gridwidth = 1;
         constraints.fill = GridBagConstraints.BOTH;
         constraints.anchor = GridBagConstraints.CENTER;
-        this.add(panelDadosActivos,constraints);
+        this.add(panelDadosActivos, constraints);
 
         panelDadosInactivos = new JPanel();
-        panelDadosInactivos.setPreferredSize(new Dimension(500,280));
+        panelDadosInactivos.setPreferredSize(new Dimension(600, 280));
         panelDadosInactivos.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 5),
                 "Dados Inactivos", TitledBorder.CENTER, TitledBorder.TOP, new Font("Arial", Font.BOLD, 25), Color.BLACK));
-        panelDadosInactivos.setBackground(new Color(255,255,255,0));
+        panelDadosInactivos.setBackground(new Color(255, 255, 255, 0));
         panelDadosInactivos.add(dado8);
         panelDadosInactivos.add(dado9);
         panelDadosInactivos.add(dado10);
@@ -121,26 +123,26 @@ public class GUIGridBagLayout extends JFrame {
         constraints.gridwidth = 1;
         constraints.fill = GridBagConstraints.BOTH;
         constraints.anchor = GridBagConstraints.CENTER;
-        this.add(panelDadosInactivos,constraints);
+        this.add(panelDadosInactivos, constraints);
 
         panelDadosUtilizados = new JPanel();
-        panelDadosUtilizados.setPreferredSize(new Dimension(500,280));
+        panelDadosUtilizados.setPreferredSize(new Dimension(500, 280));
         panelDadosUtilizados.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 5),
                 "Dados Utilizados", TitledBorder.CENTER, TitledBorder.TOP, new Font("Arial", Font.BOLD, 25), Color.BLACK));
-        panelDadosUtilizados.setBackground(new Color(255,255,255,0));
+        panelDadosUtilizados.setBackground(new Color(255, 255, 255, 0));
         //panelDadosUtilizados.add();
         constraints.gridx = 1;
         constraints.gridy = 2;
         constraints.gridwidth = 1;
         constraints.fill = GridBagConstraints.BOTH;
         constraints.anchor = GridBagConstraints.CENTER;
-        this.add(panelDadosUtilizados,constraints);
+        this.add(panelDadosUtilizados, constraints);
 
-        resultadosDados = new JTextArea(2,30);
+        resultadosDados = new JTextArea(2, 30);
         resultadosDados.setText("Usa el botón (Ayuda) para ver la reglas del juego ");
         resultadosDados.setEditable(false);
         resultadosDados.setForeground(Color.black);
-        resultadosDados.setBackground(new Color(255,255,255,0));
+        resultadosDados.setBackground(new Color(255, 255, 255, 0));
         resultadosDados.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 3),
                 "Marcador de puntaje", TitledBorder.CENTER, TitledBorder.TOP, new Font("Arial", Font.BOLD, 18), Color.black));
         constraints.gridx = 0;
@@ -148,20 +150,21 @@ public class GUIGridBagLayout extends JFrame {
         constraints.gridwidth = 1;
         constraints.fill = GridBagConstraints.NONE;
         constraints.anchor = GridBagConstraints.CENTER;
-        this.add(resultadosDados,constraints);
+        this.add(resultadosDados, constraints);
     }
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             GUIGridBagLayout miProjectGUI = new GUIGridBagLayout();
         });
     }
 
-    private class Escucha implements ActionListener{
+    private class Escucha implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if(e.getSource()==lanzar) {
+            if (e.getSource() == lanzar) {
                 Model.calcularTiro();
                 int[] caras = Model.getCaras();
                 imageDado = new ImageIcon(getClass().getResource("/resources/" + caras[0] + ".JPG"));
@@ -179,12 +182,64 @@ public class GUIGridBagLayout extends JFrame {
                 imageDado = new ImageIcon(getClass().getResource("/resources/" + caras[6] + ".JPG"));
                 dado7.setIcon(imageDado);
                 Model.determinarJuego();
+                panelDadosActivos.remove(dadosActivos);
+                panelDadosActivos.remove(lanzar);
+                panelDadosActivos.add(dado1);
+                panelDadosActivos.add(dado2);
+
+                panelDadosActivos.add(dado3);
+
+                panelDadosActivos.add(dado4);
+
+                panelDadosActivos.add(dado5);
+
+                panelDadosActivos.add(dado6);
+
+                panelDadosActivos.add(dado7);
 
                 resultadosDados.setText(Model.getEstadoToString()[0]);
                 revalidate();
                 repaint();
-            }else {if(e.getSource()==ayuda){
-                JOptionPane.showMessageDialog(null,MENSAJE_AYUDA);}}
+            }else {if (e.getSource() == ayuda) {
+                JOptionPane.showMessageDialog(null, MENSAJE_AYUDA);
+             }else{
+                if (e.getSource() == dado1) {
+                    panelDadosActivos.remove(dado1);
+                    repaint();
+                    panelDadosActivos.add(dado1);
+                }
+                if (e.getSource() == dado2) {
+                    panelDadosActivos.remove(dado2);
+                    repaint();
+                    panelDadosActivos.add(dado2);
+                }
+                if (e.getSource() == dado3) {
+                    panelDadosActivos.remove(dado3);
+                    repaint();
+                    panelDadosActivos.add(dado3);
+                }
+                if (e.getSource() == dado4) {
+                    panelDadosActivos.remove(dado4);
+                    repaint();
+                    panelDadosActivos.add(dado4);
+                }
+                if (e.getSource() == dado5) {
+                    panelDadosActivos.remove(dado5);
+                    repaint();
+                    panelDadosActivos.add(dado5);
+                }
+                if (e.getSource() == dado6) {
+                    panelDadosActivos.remove(dado6);
+                    repaint();
+                    panelDadosActivos.add(dado6);
+                }
+                if (e.getSource() == dado7) {
+                    panelDadosActivos.remove(dado7);
+                    repaint();
+                    panelDadosActivos.add(dado7);
+                }
+             }
+            }
         }
     }
 }
